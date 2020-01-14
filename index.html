@@ -1,0 +1,164 @@
+<!--Use the OpenWeather API to retrieve weather data for cities. The documentation includes a section called "How to start" that will provide basic setup and usage instructions.
+Use AJAX to hook into the API to retrieve data in JSON format.
+Your app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
+
+Display the following under current weather conditions:
+City
+Date
+Icon image (visual representation of weather conditions)
+Temperature
+Humidity
+Wind speed
+UV index
+
+Include a search history so that users can access their past search terms. Clicking on the city name should perform a new search that returns current and future conditions for that city.
+Include a 5-Day Forecast below the current weather conditions. Each day for the 5-Day Forecast should display the following:
+Date
+Icon image (visual representation of weather conditions)
+Temperature
+Humidity
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+
+    <!-- jQuery Library -->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+    
+    <!-- Title font -->
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+    <!-- Link to our own stylesheet-->
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+
+</head>
+<body>
+    <div class="header">
+        <h1 class="text-center">Weather Dashboard</h1>
+    </div>
+
+    <!-- content -->
+    <div class="container">
+        <div class="row">
+            <!-- search panel -->
+            <div class="col-sm-3">
+
+                <!-- search user input -->
+                <div class="row">
+                    <div class="col">
+                        <label for="contain">Location</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Seattle, WA" aria-label="Location" id="newSearchLoc">
+                            <div class="input-group-append search">
+                                <button type="submit" class="btn btn-primary">
+                                    <img src="assets/images/search.svg" height="20px" width="20px">
+                                </button>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+
+                <!-- search history -->
+                <div class="row">
+                    <div class="col">
+                        <ul class="list-group" id="previousSearches">
+                            <li class="list-group-item">city 1</li>
+                            <li class="list-group-item">city 2</li>
+                            <li class="list-group-item">city 3</li>
+                            <li class="list-group-item">city 4</li>
+                            <li class="list-group-item">city 5</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- search history -->
+
+
+
+            <!-- weather display -->
+            <div class="col-sm-9 d-none d-sm-flex flex-column">
+                <div style="background-color:powderblue;" class="row flex-grow-1">
+                    <div class="col">
+                        <!-- header -->
+                        <div>
+                            <h2 id="currentStats">CITY 01/01/2020 ICON</h2>
+                        </div>
+                        <div>
+                            Temperature: 
+                        </div>
+                        <div>
+                            Humidity: 
+                        </div>
+                        <div>
+                            Wind Speed: 
+                        </div>
+                        <div>
+                            UV Index: 
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="row">
+                    <div class="col">
+                        <h3>5 Day Forecast</h3>
+                    </div>
+                </div>
+
+                <div style="background-color:lightgreen;" class="row flex-grow-1">
+                    <div class="col" data-forecast-day=1>
+                        <h5>DATE</h5>
+                        <div>ICON</div>
+                        <p>Temp: </p>
+                        <p>Humidity: </p>
+                    </div>
+                    <div class="col" data-forecast-day=2>
+                        <h5>DATE</h5>
+                        <div>ICON</div>
+                        <p>Temp: </p>
+                        <p>Humidity: </p>
+                    </div>
+                    <div class="col" data-forecast-day=3>
+                        <h5>DATE</h5>
+                        <div>ICON</div>
+                        <p>Temp: </p>
+                        <p>Humidity: </p>
+                    </div>
+                    <div class="col" data-forecast-day=4>
+                        <h5>DATE</h5>
+                        <div>ICON</div>
+                        <p>Temp: </p>
+                        <p>Humidity: </p>
+                    </div>
+                    <div class="col" data-forecast-day=5>
+                        <h5>DATE</h5>
+                        <div>ICON</div>
+                        <p>Temp: </p>
+                        <p>Humidity: </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    
+    </div>
+    
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
