@@ -29,7 +29,7 @@ $( document ).ready(function() {
                     method: "GET"
                 }).then(function(response) {
                     //console.log(response);
-                    $("#curUV").text(`UV Index: ${response.value}`);
+                    $("#curUV").text(`UV Index: ${Math.round(response.value)}`);
                 })
             },
             error: function(thrownError){
@@ -49,9 +49,9 @@ $( document ).ready(function() {
         $("#curWeatherImg").attr("src",weatherIcon);
 
         // current weather
-        $("#curTemp").text(`Temperature: ${weatherData.main.temp}°F`);
+        $("#curTemp").text(`Temperature: ${Math.round(weatherData.main.temp)}°F`);
         $("#curHum").text(`Humidity: ${weatherData.main.humidity}%`);
-        $("#curWindSpeed").text(`Wind Speed: ${weatherData.wind.speed}mph`);
+        $("#curWindSpeed").text(`Wind Speed: ${Math.round(weatherData.wind.speed)}mph`);
         return;
     }
 
@@ -65,21 +65,26 @@ $( document ).ready(function() {
         localStorage.setItem("prevCity",cityName);
         let prevCities = JSON.parse(localStorage.getItem("prevCities"));
         if (!prevCities){
-            prevCities = [cityName];
+            prevCities = [];
         }
         updatePageCities(prevCities, cityName)
     }
 
     function updatePageCities(prevCities, cityName){
         // update storage
-        if (prevCities.length > 4){
-            for (i = prevCities.length; i > 0; i--){
-                prevCities[i] = prevCities[i-1];
-            }
-            prevCities[0] = cityName;
+        if (prevCities.length === 0){
+            prevCities = [cityName];
         }
         else{
-            prevCities.splice(0, 0, cityName);
+            if (prevCities.length > 4){
+                for (i = prevCities.length-1; i > 0; i--){
+                    prevCities[i] = prevCities[i-1];
+                }
+                prevCities[0] = cityName;
+            }
+            else{
+                prevCities.splice(0, 0, cityName);
+            }    
         }
         localStorage.setItem("prevCities",JSON.stringify(prevCities));
 
