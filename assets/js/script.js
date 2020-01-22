@@ -11,7 +11,26 @@ $( document ).ready(function() {
     function searchCity(event){
         let loc = $("#newSearchLoc").val().trim();
         let units = "imperial";
-        queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&APPID=${APIkey}&units=${units}`;
+        
+        
+        // Get forecast
+        let forecastURL = `https://api.openweathermap.org/data/2.5/forecast?q=${loc}&APPID=${APIkey}&units=${units}`;
+        $.ajax({
+            url: forecastURL,
+            method: "GET",
+            success: function(response){
+                let forecastData = response;
+                postForecastToPage(forecastData);
+            },
+            error: function(thrownError){
+
+            }
+        }).then(function(response) {
+
+        });
+
+        // Get current weather
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${loc}&APPID=${APIkey}&units=${units}`;
         storeCity(loc);
 
         $.ajax({
@@ -33,11 +52,32 @@ $( document ).ready(function() {
                 })
             },
             error: function(thrownError){
-                $("#searchError").text("invalid search");
+                $("#searchError").text("failed to get weather");
             }
             }).then(function(response) {
         });
     };
+
+    // post the forecast to the page
+    function postForecastToPage(forecastData){
+        console.log(forecastData);
+        for (i=0;i<5;i++){
+            let listIndex = 8*(i+1)-1;
+            curData = forecastData.list[listIndex];
+            let date = `${moment(curData.dt_txt).format('MM/DD')}`;
+            console.log(date);
+            let iconType = curData.weather[0].icon;
+            iconSrc = `http://openweathermap.org/img/wn/${iconType}.png`;
+            console.log(iconSrc)
+            forecastSlot = $("[data-forecast-day=" + (i+1) + "]");
+            forecastChildren = forecastSlot.children();
+            $(forecastChildren[0]).text(`${date}`);
+            $(forecastChildren[1].children[0]).attr("src",iconSrc)
+            $(forecastChildren[2]).text(`Temperature: ${Math.round(curData.main.temp)}°F`);
+            $(forecastChildren[3]).text(`Humidity: ${curData.main.humidity}%`);
+        }
+    }
+
 
     // post the current weathre data to the page
     function postCurrentToPage(weatherData){
