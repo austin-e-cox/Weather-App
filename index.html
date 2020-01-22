@@ -36,16 +36,14 @@ Humidity
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    
-    <!--<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
-    
-    <!-- Title font -->
-    <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+        
     <!-- Link to our own stylesheet-->
     <link rel="stylesheet" href="assets/css/styles.css">
 
-
+    <!-- moment time jscript -->
+    <script src="assets/js/moment.js"></script>
 </head>
+
 <body>
     <div class="header">
         <h1 class="text-center">Weather Dashboard</h1>
@@ -60,15 +58,20 @@ Humidity
                 <!-- search user input -->
                 <div class="row">
                     <div class="col">
-                        <label for="contain">Location</label>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Seattle, WA" aria-label="Location" id="newSearchLoc">
-                            <div class="input-group-append search">
-                                <button type="submit" class="btn btn-primary">
-                                    <img src="assets/images/search.svg" height="20px" width="20px">
-                                </button>
+                        <form action="">
+                            <label for="contain">Location</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Seattle,USA" aria-label="Location" id="newSearchLoc">
+                                <div class="input-group-append search">
+                                    <button type="submit" class="btn btn-primary">
+                                        <img src="assets/images/search.svg" height="20px" width="20px">
+                                    </button>
+                                </div>
                             </div>
-                        </div>    
+                            <div id="searchError">
+                                
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -76,11 +79,11 @@ Humidity
                 <div class="row">
                     <div class="col">
                         <ul class="list-group" id="previousSearches">
-                            <li class="list-group-item">city 1</li>
-                            <li class="list-group-item">city 2</li>
-                            <li class="list-group-item">city 3</li>
-                            <li class="list-group-item">city 4</li>
-                            <li class="list-group-item">city 5</li>
+                            <li class="list-group-item search-hist">city 1</li>
+                            <li class="list-group-item search-hist">city 2</li>
+                            <li class="list-group-item search-hist">city 3</li>
+                            <li class="list-group-item search-hist">city 4</li>
+                            <li class="list-group-item search-hist">city 5</li>
                         </ul>
                     </div>
 
@@ -96,19 +99,21 @@ Humidity
                 <div style="background-color:powderblue;" class="row flex-grow-1">
                     <div class="col">
                         <!-- header -->
-                        <div>
-                            <h2 id="currentStats">CITY 01/01/2020 ICON</h2>
+                        <div style="white-space:nowrap">
+                            <h2 id="currentStats" style="display:inline;">01/01/1900 ICON</h2>
+                            <img id="curWeatherImg" style="display:inline;"/>
                         </div>
-                        <div>
+
+                        <div id="curTemp">
                             Temperature: 
                         </div>
-                        <div>
+                        <div id="curHum">
                             Humidity: 
                         </div>
-                        <div>
+                        <div id="curWindSpeed">
                             Wind Speed: 
                         </div>
-                        <div>
+                        <div id="curUV">
                             UV Index: 
                         </div>
                     </div>
