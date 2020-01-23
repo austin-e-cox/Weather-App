@@ -2,3 +2,12 @@
     color: #ffffff;
     background-color: #000000b3;
 }
+
+.tac{
+    text-align: center;
+}
+
+.forecastBox{
+    background-color: lightgray;
+    margin: 5px 5px 5px 5px;
+}

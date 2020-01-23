@@ -73,7 +73,7 @@ $( document ).ready(function() {
             forecastChildren = forecastSlot.children();
             $(forecastChildren[0]).text(`${date}`);
             $(forecastChildren[1].children[0]).attr("src",iconSrc)
-            $(forecastChildren[2]).text(`Temperature: ${Math.round(curData.main.temp)}°F`);
+            $(forecastChildren[2]).text(`Temp: ${Math.round(curData.main.temp)}°F`);
             $(forecastChildren[3]).text(`Humidity: ${curData.main.humidity}%`);
         }
     }
@@ -116,15 +116,22 @@ $( document ).ready(function() {
             prevCities = [cityName];
         }
         else{
-            if (prevCities.length > 4){
-                for (i = prevCities.length-1; i > 0; i--){
-                    prevCities[i] = prevCities[i-1];
-                }
-                prevCities[0] = cityName;
+            // if name already in array, move city to top of array
+            if (prevCities.includes(cityName)){
+                array_move(prevCities,prevCities.indexOf(cityName),0);
             }
             else{
-                prevCities.splice(0, 0, cityName);
-            }    
+                if (prevCities.length > 4){
+                    for (i = prevCities.length-1; i > 0; i--){
+                        prevCities[i] = prevCities[i-1];
+                    }
+                    prevCities[0] = cityName;
+                }
+                else{
+                    prevCities.splice(0, 0, cityName);
+                }    
+            }
+
         }
         localStorage.setItem("prevCities",JSON.stringify(prevCities));
 
@@ -135,6 +142,17 @@ $( document ).ready(function() {
             $(htmlCityNames[i]).text(prevCities[i]);
         }
     }
+
+    function array_move(arr, old_index, new_index) {
+        if (new_index >= arr.length) {
+            var k = new_index - arr.length + 1;
+            while (k--) {
+                arr.push(undefined);
+            }
+        }
+        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+        return arr; // for testing
+    };
 
     //on page load, load the previous city's data
     function loadCity(){
